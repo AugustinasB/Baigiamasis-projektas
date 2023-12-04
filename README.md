@@ -1,1 +1,1 @@
-# Baigiamasis-projektas
+# Baigiamasis-projektas.
