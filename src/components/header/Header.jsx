@@ -27,7 +27,6 @@ const StyledHeader = styled.header`
         'Helvetica Neue', sans-serif;
       font-size: 3rem;
       font-weight: bold;
-      letter-spacing: px;
       color: #00aae4;
     }
   }

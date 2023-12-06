@@ -10,7 +10,6 @@ function App() {
   };
 
   const handleSearch = () => {
-    // Implement your search logic here using the searchTerm
     console.log(`Searching for: ${searchTerm}`);
   };
 
