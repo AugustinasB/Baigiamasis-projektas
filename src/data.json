@@ -1,39 +1,5 @@
 {
     "users": [
-        {
-            "id": 1,
-            "userName": "bulve",
-            "profilePicture": "https://kauno.diena.lt/sites/default/files/wp_000011_0.jpg",
-            "email": "bulve@gmail.com",
-            "password": "batonelis"
-        },
-        {
-            "id": 2,
-            "userName": "slapenke",
-            "profilePicture": "https://maistosiunta.lt/4082-large_default/mazeikiu-virta-daktariska-klasikine-desra-600g.jpg",
-            "email": "slapenke@gmail.com",
-            "password": "slapiaslapenke"
-        },
-        {
-            "id": 3,
-            "userName": "duona",
-            "profilePicture": "https://static.wixstatic.com/media/53e57b_9faebe727d2f4980883cabae872b2266~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/53e57b_9faebe727d2f4980883cabae872b2266~mv2.jpg",
-            "email": "duonas@gmail.com",
-            "password": "prastoskokybes"
-        },
-        {
-            "id": 4,
-            "userName": "agurkas",
-            "profilePicture": "https://plushiedepot.com/cdn/shop/products/476e80ec-1e15-4077-be18-60b58b16cd1d.png?v=1667865610",
-            "email": "agurkas@gmail.com",
-            "password": "zaliasis"
-        },
-        {
-            "id": 5,
-            "userName": "kiausinis",
-            "profilePicture": "https://ichef.bbci.co.uk/news/976/cpsprodpb/7614/production/_105482203__105172250_gettyimages-857294664.jpg",
-            "email": "kaiusinis@gmail.com",
-            "password": "premium"
-        }
+
     ]
 }

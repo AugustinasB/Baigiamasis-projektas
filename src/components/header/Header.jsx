@@ -42,7 +42,11 @@ const StyledHeader = styled.header`
         > a {
           font-weight: bold;
           margin-right: 20px;
-          color: orange
+          color: orange;
+          text-decoration: none;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
         }
       }
     }
@@ -79,7 +83,7 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
     <StyledHeader>
       <div className="logo">
         <img src="https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-letter-e-logo-vector-png-image_6699445.png" alt="Logo" />
-        <span>ivom</span>
+        <span>Eivom</span>
       </div>
       <nav>
         <ul>
@@ -87,9 +91,11 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
             <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign In</NavLink>
           </li>
           <li>
-            <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
+            <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
           </li>
         </ul>
+      
+
         <div className="search">
           <input
             type="text"
