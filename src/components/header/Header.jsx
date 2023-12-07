@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useContext } from 'react';
 import UsersContext from '../../contexts/UsersContext.jsx';
@@ -51,17 +51,42 @@ const StyledHeader = styled.header`
       }
     }
 
-    > div.search {
+  > div.userInfo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    > a{
       display: flex;
       align-items: center;
-      margin-left: auto;
+      gap: 10px;
 
+      text-decoration: none;
+      color: unset;
+
+      > img{
+        height: 60px;
+      }
+
+      > span{
+        font-size: 1.3rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
+        color: white;
+        }
+      }
+    }
+    
+
+    > div.search {
+      
+      
       > input {
-        margin-right: 10px;
         background-color: #fff;
         border: 1px solid #ccc;
-        padding: 8px;
-        width: 200px;
+        padding: 7px;
+
       }
 
       > button {
@@ -71,13 +96,28 @@ const StyledHeader = styled.header`
         padding: 8px 16px;
         font-size: 1rem;
         cursor: pointer;
+        
       }
     }
   }
 `;
 
+const StyledLogoutButton = styled.button`
+  background-color: #ff6347; 
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d32f2f; 
+  }
+`;
+
 const Header = ({ searchTerm, onInputChange, onSearch }) => {
-  const { loggedInUser } = useContext(UsersContext);
+  const { loggedInUser, setLoggedInUser } = useContext(UsersContext);
+  const navigate = useNavigate();
 
   return (
     <StyledHeader>
@@ -86,17 +126,7 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
         <span>Eivom</span>
       </div>
       <nav>
-        <ul>
-          <li>
-            <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign In</NavLink>
-          </li>
-          <li>
-            <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
-          </li>
-        </ul>
-      
-
-        <div className="search">
+                <div className="search">
           <input
             type="text"
             placeholder="Search..."
@@ -105,10 +135,39 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
           />
           <button onClick={onSearch}>Search</button>
         </div>
+        <ul>
+          <li>
+            <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign In</NavLink>
+          </li>
+          <li>
+            <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
+          </li>
+        </ul>
+
+        {loggedInUser && (
+          <div className="userInfo">
+            {loggedInUser.role === "admin" && <Link to="/user/manage">Manage Users</Link>}
+            <Link to="/user/page">
+              <img
+                src={loggedInUser.profilePicture}
+                alt={`${loggedInUser.userName} profile picture`}
+              />
+              <span>{loggedInUser.userName}</span>
+            </Link>
+            <StyledLogoutButton
+              onClick={() => {
+                setLoggedInUser('');
+                navigate('/');
+              }}
+            >
+              LogOut
+            </StyledLogoutButton>
+          </div>
+        )}
       </nav>
-      {loggedInUser ? <div className="userInfo"></div> : null}
     </StyledHeader>
   );
 };
+
 
 export default Header;
