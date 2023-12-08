@@ -6,6 +6,7 @@ import UsersContext from '../../contexts/UsersContext.jsx';
 const StyledHeader = styled.header`
   padding: 0 20px;
   height: 80px;
+  position: relative;
 
   display: flex;
   justify-content: space-between;
@@ -80,7 +81,10 @@ const StyledHeader = styled.header`
     
 
     > div.search {
-      
+      position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
       
       > input {
         background-color: #fff;
@@ -126,7 +130,7 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
         <span>Eivom</span>
       </div>
       <nav>
-                <div className="search">
+          <div className="search">
           <input
             type="text"
             placeholder="Search..."
@@ -135,6 +139,9 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
           />
           <button onClick={onSearch}>Search</button>
         </div>
+        
+          {!loggedInUser ? (
+        
         <ul>
           <li>
             <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign In</NavLink>
@@ -143,10 +150,8 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
             <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
           </li>
         </ul>
-
-        {loggedInUser && (
+        ) : (
           <div className="userInfo">
-            {loggedInUser.role === "admin" && <Link to="/user/manage">Manage Users</Link>}
             <Link to="/user/page">
               <img
                 src={loggedInUser.profilePicture}

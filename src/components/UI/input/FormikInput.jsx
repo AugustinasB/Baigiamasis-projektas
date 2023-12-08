@@ -7,7 +7,7 @@ const FormikInput = ({ type, name, formik, placeholder }) => {
         name={name} id={name}
         value={formik.values[name]} // values['hihi'] === values.hihi 
         onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+
         placeholder={placeholder?placeholder:''}
       />
       {

@@ -21,6 +21,18 @@
       "age": 33,
       "registerDate": "2023-12-07",
       "profilePicture": "https://www.sulieknek.lt/wp-content/uploads/2017/12/Valgote-balta-misraine.jpg"
+    },
+    {
+      "id": "82c3717e-9083-4687-b499-340f6e142949",
+      "role": "user",
+      "isBanned": false,
+      "userName": "misrainius@gmail.com",
+      "email": "misrainius@gmail.com",
+      "passwordNormal": "Sumaisytas1!",
+      "password": "$2a$08$FH2Ie/njdmD7tnMC7sICauwCWeDK6JjHizk79Qp1IW8lziqMEn1WK",
+      "age": 21,
+      "registerDate": "2023-12-08",
+      "profilePicture": "https://t3.ftcdn.net/jpg/03/76/74/78/360_F_376747823_L8il80K6c2CM1lnPYJhhJZQNl6ynX1yj.jpg"
     }
   ]
 }
