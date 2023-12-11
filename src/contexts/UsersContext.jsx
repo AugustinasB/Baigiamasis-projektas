@@ -21,7 +21,7 @@ const UsersProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:8080/users`)
+    fetch(`http://localhost:8081/users`)
       .then(res => res.json())
       .then(data =>
         setUsers({
