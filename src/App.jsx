@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { UsersProvider } from './contexts/UsersContext'; 
+import './App.css';
 import Header from './components/header/Header';
-import Body from './components/body/Body';
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Register';
-import AddQuestion from './components/pages/addquestion/AddQuestion';
-import QuestionsPage from './components/pages/questionspage/QuestionsPage';
+import QuestionForm from './components/pages/questionform/QuestionForm'; 
+import QuestionList from './components/pages/questionlist/QuestionList'; 
+import { UsersProvider } from './contexts/UsersContext';
+import Body from './components/body/Body';
 
 function App() {
+  const [submittedQuestions, setSubmittedQuestions] = useState([]);
+
+  const handleFormSubmit = (formData) => {
+    setSubmittedQuestions([...submittedQuestions, formData]);
+  };
+
   return (
     <UsersProvider>
       <Routes>
@@ -18,16 +25,17 @@ function App() {
             <>
               <Header />
               <Routes>
-                <Route path="/user">
+                <Route index element={<Body />} />
+
+                <Route path="/user/*">
                   <Route path="login" element={<Login />} />
                   <Route path="register" element={<Register />} />
                 </Route>
-              </Routes>
-              <Body />
-              <Routes>
-                {/* Render AddQuestion only when not on /user/login or /user/register */}
-                <Route path="/" element={<AddQuestion />} />
-                <Route path="/questions" element={<QuestionsPage />} />
+
+                <Route path="/questions">
+                  <Route index element={<QuestionList questions={submittedQuestions} />} />
+                  <Route path="submit" element={<QuestionForm onSubmit={handleFormSubmit} />} />
+                </Route>
               </Routes>
             </>
           }

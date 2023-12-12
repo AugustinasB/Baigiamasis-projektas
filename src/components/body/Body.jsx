@@ -14,7 +14,7 @@ const StyledBody = styled.div`
 
     ul > li {
         padding: 20px;
-        display: flex; /* Enable flex layout for li */
+        display: flex; 
     }
 
     ul > li > span {
