@@ -10,8 +10,5 @@ npm i ir įvesti:
 5. formik
 6. bcryptjs
 
-
-Taip pat per package.json įsivesti reikiama "json": "json-server ./src/data.json --watch --port 8081" komandą, kuri turi būti "scripts" viduje.
-
 Ir paskui projekto vietoje git bash terminal console'je įsivesti npm start ir pridedant dar kitą papildomą bash lauką įvesti "npm run json".
 
