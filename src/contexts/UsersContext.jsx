@@ -7,7 +7,7 @@ const UsersActionTypes = {
   get_all: 'get all users from db',
   add_question: 'add a new question',
   edit_question: 'edit a question',
-  delete_question: 'delete a question',
+  delete_question: 'delete a question'
 };
 
 const reducer = (state, action) => {
@@ -45,7 +45,7 @@ const UsersProvider = ({ children }) => {
       .then(data =>
         setUsers({
           type: UsersActionTypes.get_all,
-          data: data,
+          data: data
         })
       );
   }, []);
@@ -53,21 +53,21 @@ const UsersProvider = ({ children }) => {
   const addQuestion = (question) => {
     setUsers({
       type: UsersActionTypes.add_question,
-      data: { ...question, id: uuid() },
+      data: { ...question, id: uuid() }
     });
   };
 
   const editQuestion = (question) => {
     setUsers({
       type: UsersActionTypes.edit_question,
-      data: question,
+      data: question
     });
   };
 
   const deleteQuestion = (questionId) => {
     setUsers({
       type: UsersActionTypes.delete_question,
-      id: questionId,
+      id: questionId
     });
   };
 
@@ -103,7 +103,7 @@ const UsersProvider = ({ children }) => {
         addQuestion,
         editQuestion,
         deleteQuestion,
-        saveDataToFile,
+        saveDataToFile
       }}
     >
       {children}

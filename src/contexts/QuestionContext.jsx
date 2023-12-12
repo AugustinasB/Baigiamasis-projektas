@@ -1,4 +1,3 @@
-// QuestionContext.jsx
 import { createContext, useEffect, useReducer } from "react";
 
 
@@ -37,7 +36,7 @@ const QuestionProvider = ({children}) => {
       .then(data =>
         dispatch({
           type: QuestionActionTypes.get_all,
-          data: data,
+          data: data
         })
       );
   }, []);
@@ -45,14 +44,14 @@ const QuestionProvider = ({children}) => {
   const addQuestion = (question) => {
     dispatch({
       type: QuestionActionTypes.add,
-      data: question,
+      data: question
     });
   };
 
   const removeQuestion = (questionId) => {
     dispatch({
       type: QuestionActionTypes.remove,
-      id: questionId,
+      id: questionId
     });
   };
 
@@ -60,7 +59,7 @@ const QuestionProvider = ({children}) => {
     dispatch({
       type: QuestionActionTypes.edit,
       id: questionId,
-      data: updatedData,
+      data: updatedData
     });
   };
 
@@ -71,7 +70,7 @@ const QuestionProvider = ({children}) => {
         QuestionActionTypes,
         addQuestion,
         removeQuestion,
-        editQuestion,
+        editQuestion
       }}
     >
       {children}
