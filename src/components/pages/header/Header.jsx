@@ -1,7 +1,7 @@
+import React, { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useContext } from 'react';
-import UsersContext from '../../contexts/UsersContext.jsx';
+import UsersContext from '../../../contexts/UsersContext.jsx';
 
 const StyledHeader = styled.header`
   padding: 0 20px;
@@ -52,45 +52,43 @@ const StyledHeader = styled.header`
       }
     }
 
-  > div.userInfo{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-
-    > a{
+    > div.userInfo{
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 20px;
 
-      text-decoration: none;
-      color: unset;
+      > a{
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-      > img{
-        height: 60px;
-      }
+        text-decoration: none;
+        color: unset;
 
-      > span{
-        font-size: 1.3rem;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-        'Helvetica Neue', sans-serif;
-        color: white;
+        > img{
+          height: 60px;
+        }
+
+        > span{
+          font-size: 1.3rem;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+          'Helvetica Neue', sans-serif;
+          color: white;
         }
       }
     }
-    
 
     > div.search {
       position: absolute;
-    top: 50%; 
-    left: 50%; 
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-      
+
       > input {
         background-color: #fff;
         border: 1px solid #ccc;
         padding: 7px;
-
       }
 
       > button {
@@ -100,7 +98,6 @@ const StyledHeader = styled.header`
         padding: 8px 16px;
         font-size: 1rem;
         cursor: pointer;
-        
       }
     }
   }
@@ -123,6 +120,11 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
   const { loggedInUser, setLoggedInUser } = useContext(UsersContext);
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    setLoggedInUser('');
+    navigate('/');
+  };
+
   return (
     <StyledHeader>
       <div className="logo">
@@ -130,7 +132,7 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
         <span>Eivom</span>
       </div>
       <nav>
-          <div className="search">
+        <div className="search">
           <input
             type="text"
             placeholder="Search..."
@@ -139,18 +141,8 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
           />
           <button onClick={onSearch}>Search</button>
         </div>
-        
-          {!loggedInUser ? (
-        
-        <ul>
-          <li>
-            <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>Sign In</NavLink>
-          </li>
-          <li>
-            <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>Sign Up</NavLink>
-          </li>
-        </ul>
-        ) : (
+
+        {loggedInUser ? (
           <div className="userInfo">
             <Link to="/user/page">
               <img
@@ -160,19 +152,28 @@ const Header = ({ searchTerm, onInputChange, onSearch }) => {
               <span>{loggedInUser.userName}</span>
             </Link>
             <StyledLogoutButton
-              onClick={() => {
-                setLoggedInUser('');
-                navigate('/');
-              }}
+              onClick={handleLogout}
             >
               LogOut
             </StyledLogoutButton>
           </div>
+        ) : (
+          <ul>
+            <li>
+              <NavLink to="/user/login" className={({ isActive }) => isActive ? 'active' : ''}>
+                Sign In
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/user/register" className={({ isActive }) => isActive ? 'active' : ''}>
+                Sign Up
+              </NavLink>
+            </li>
+          </ul>
         )}
       </nav>
     </StyledHeader>
   );
 };
-
 
 export default Header;

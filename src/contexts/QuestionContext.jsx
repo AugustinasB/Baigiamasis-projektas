@@ -32,7 +32,6 @@ const QuestionProvider = ({children}) => {
   const [questions, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
-    // Replace with your fetch logic
     fetch(`http://localhost:8081/questions`)
       .then(res => res.json())
       .then(data =>
@@ -80,4 +79,4 @@ const QuestionProvider = ({children}) => {
   );
 };
 
-export { QuestionProvider, QuestionContext }; // Export both QuestionProvider and QuestionContext
+export { QuestionProvider, QuestionContext }; 

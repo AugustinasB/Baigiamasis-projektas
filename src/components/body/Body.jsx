@@ -1,5 +1,7 @@
+import React, { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import UsersContext from '../../contexts/UsersContext';
 
 const StyledBody = styled.div`
     font-family: system-ui, -apple-system, BlinkMacSystemFont,
@@ -38,18 +40,21 @@ const StyledBody = styled.div`
 
 const Body = () => {
     const navigate = useNavigate();
-
+    const { loggedInUser } = useContext(UsersContext);
 
     return (
-    <StyledBody>
-        <ul>
-            <li>
-            <span>All Questions</span>
-            <NavLink to="/AddQuestion" activeClassName="activeclassname">Add Question</NavLink>
-            </li>
-        </ul>
-
-    </StyledBody>
+        <StyledBody>
+            <ul>
+                <li>
+                {loggedInUser && <span>All Questions</span>}
+                    {loggedInUser && (
+                        <NavLink to="/AddQuestion" activeClassName="activeclassname">
+                            Add Question
+                        </NavLink>
+                    )}
+                </li>
+            </ul>
+        </StyledBody>
     );
 };
 
