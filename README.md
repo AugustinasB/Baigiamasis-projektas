@@ -1,14 +1,7 @@
-Prieš pradedant naudotis serveriu nusinaviguoti į esančią projekto vietą.
+Paleidimo instrukcija:
 
-
-Įsirašyti nodus per git bash terminal įsivedant:
-npm i ir įvesti: 
-1. yup
-2. uuid
-3. styled-components
-4. react-router-dom
-5. formik
-6. bcryptjs
-
-Ir paskui projekto vietoje git bash terminal console'je įsivesti npm start ir pridedant dar kitą papildomą bash lauką įvesti "npm run json".
-
+1. Atsidaryti git bash'ą terminale.
+2. Nukreipti į esamą projekto vietą ( Baigiamasis-projektas ).
+3. Jo viduje įvesti npm i.
+4. Baigus viską instaliuoti, įvesti npm start.
+5. Atsidarius dar kita git bash'ą įvesti npm run json.
