@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import{ useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 const StyledAddQuestion = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
@@ -59,11 +58,46 @@ const StyledAddQuestion = styled.div`
   }
 `;
 
+
 const AddQuestion = () => {
   const [questions, setQuestions] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [editingQuestionId, setEditingQuestionId] = useState(null);
+
+  useEffect(() => {
+    const storedQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+    setQuestions(storedQuestions);
+
+    fetch('http://localhost:8081/questions')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          setQuestions(data);
+        } else {
+          console.log('Data.json does not exist.');
+        }
+      })
+      .catch((error) => console.error('Error fetching data.json:', error));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('questions', JSON.stringify(questions));
+    updateDataJson(questions);
+  }, [questions]);
+
+  const updateDataJson = (questions) => {
+    fetch('http://localhost:8081/questions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(questions),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log('Data.json updated successfully:', data))
+      .catch((error) => console.error('Error updating data.json:', error));
+  };
 
   const addQuestion = () => {
     if (newTitle.trim() && newDescription.trim()) {
@@ -134,8 +168,12 @@ const AddQuestion = () => {
       <ul>
         {questions.map((question) => (
           <li key={question.id}>
-            <span>{`Title: ${question.title}`}</span>
-            <span>{`Description: ${question.description}`}</span>
+            <div>
+              <strong>Title:</strong> {question.title}
+            </div>
+            <div>
+              <strong>Description:</strong> {question.description}
+            </div>
             <button onClick={() => editQuestion(question.id)}>Edit</button>
             <button onClick={() => removeQuestion(question.id)}>Remove</button>
           </li>
