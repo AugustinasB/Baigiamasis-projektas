@@ -1,8 +1,6 @@
 import React, { createContext, useEffect, useReducer, useState } from "react";
-import { v4 as uuid } from 'uuid';
 
 const UsersContext = createContext();
-
 const UsersActionTypes = {
   get_all: 'get all users from db',
   add_question: 'add a new question',
@@ -39,7 +37,6 @@ const UsersProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState('');
 
   useEffect(() => {
-
     fetch(`http://localhost:8081/users`)
       .then(res => res.json())
       .then(data =>
@@ -49,48 +46,6 @@ const UsersProvider = ({ children }) => {
         })
       );
   }, []);
-
-  const addQuestion = (question) => {
-    setUsers({
-      type: UsersActionTypes.add_question,
-      data: { ...question, id: uuid() }
-    });
-  };
-
-  const editQuestion = (question) => {
-    setUsers({
-      type: UsersActionTypes.edit_question,
-      data: question
-    });
-  };
-
-  const deleteQuestion = (questionId) => {
-    setUsers({
-      type: UsersActionTypes.delete_question,
-      id: questionId
-    });
-  };
-
-  const saveDataToFile = async (data) => {
-    try {
-
-      const response = await fetch('http://localhost:8081/questions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save data');
-      }
-
-      console.log('Data saved successfully.');
-    } catch (error) {
-      console.error('Error saving data:', error.message);
-    }
-  };
 
   return (
     <UsersContext.Provider
