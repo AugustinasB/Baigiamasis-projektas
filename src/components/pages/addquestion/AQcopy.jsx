@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+
 const StyledAddQuestion = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
@@ -17,7 +18,6 @@ const StyledAddQuestion = styled.div`
   li {
     display: flex;
     align-items: center;
-    flex-direction: column; 
     margin-bottom: 10px;
 
     span {
@@ -27,7 +27,7 @@ const StyledAddQuestion = styled.div`
     }
 
     button {
-      margin-top: 10px; 
+      margin-left: 10px;
       background-color: #FFC67D;
       border: none;
       border-radius: 30px;
@@ -36,12 +36,18 @@ const StyledAddQuestion = styled.div`
     }
   }
 
-  input,
-  textarea {
+  input {
     width: 80%;
     padding: 5px;
     margin: 10px 0;
     border: 2px solid black;
+  }
+
+  textarea {
+    width: 80%;
+    margin: 10px 0;
+    border: 2px solid black;
+    resize: none; 
   }
 
   button {
@@ -60,25 +66,18 @@ const StyledAddQuestion = styled.div`
 `;
 
 const AddQuestion = () => {
-  const [questions, setQuestions] = useState([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
+  const [questions, setQuestions] = useState([
+  ]);
+
+  const [newQuestion, setNewQuestion] = useState('');
+  const [editedQuestion, setEditedQuestion] = useState('');
   const [editingQuestionId, setEditingQuestionId] = useState(null);
 
   const addQuestion = () => {
-    if (newTitle.trim() && newDescription.trim()) {
-      const updatedQuestions = [
-        ...questions,
-        {
-          id: Date.now(),
-          title: newTitle.trim(),
-          description: newDescription.trim(),
-        },
-      ];
+    if (newQuestion.trim()) {
+      const updatedQuestions = [...questions, { id: Date.now(), text: newQuestion.trim() }];
       setQuestions(updatedQuestions);
-      setNewTitle('');
-      setNewDescription('');
-      setEditingQuestionId(null);
+      setNewQuestion('');
     }
   };
 
@@ -89,21 +88,18 @@ const AddQuestion = () => {
   };
 
   const editQuestion = (id) => {
-    const questionToEdit = questions.find((question) => question.id === id);
-    setNewTitle(questionToEdit.title);
-    setNewDescription(questionToEdit.description);
     setEditingQuestionId(id);
+    const questionToEdit = questions.find((question) => question.id === id);
+    setNewQuestion(questionToEdit.text);
+    setEditedQuestion(questionToEdit.text);
   };
 
   const saveEdit = () => {
     const updatedQuestions = questions.map((question) =>
-      question.id === editingQuestionId
-        ? { ...question, title: newTitle.trim(), description: newDescription.trim() }
-        : question
+      question.id === editingQuestionId ? { ...question, text: editedQuestion.trim() } : question
     );
     setQuestions(updatedQuestions);
-    setNewTitle('');
-    setNewDescription('');
+    setEditedQuestion('');
     setEditingQuestionId(null);
   };
 
@@ -112,19 +108,14 @@ const AddQuestion = () => {
       <h2>Add/Edit a Question</h2>
       <input
         type="text"
-        placeholder="Type your title"
-        value={newTitle}
-        onChange={(e) => setNewTitle(e.target.value)}
-      />
-      <textarea
-        placeholder="Type your description"
-        value={newDescription}
-        onChange={(e) => setNewDescription(e.target.value)}
+        placeholder="Type your question"
+        value={newQuestion}
+        onChange={(e) => setNewQuestion(e.target.value)}
       />
       {editingQuestionId ? (
         <>
-          <button onClick={saveEdit}>Save</button>
-          <button onClick={() => setEditingQuestionId(null)}>Cancel</button>
+          <button onClick={saveEdit}>Save Edit</button>
+          <button onClick={() => setEditingQuestionId(null)}>Cancel Edit</button>
         </>
       ) : (
         <button onClick={addQuestion}>Submit</button>
@@ -134,10 +125,27 @@ const AddQuestion = () => {
       <ul>
         {questions.map((question) => (
           <li key={question.id}>
-            <span>{`Title: ${question.title}`}</span>
-            <span>{`Description: ${question.description}`}</span>
-            <button onClick={() => editQuestion(question.id)}>Edit</button>
-            <button onClick={() => removeQuestion(question.id)}>Remove</button>
+            {editingQuestionId === question.id ? (
+              <input
+                type="text"
+                value={editedQuestion}
+                onChange={(e) => setEditedQuestion(e.target.value)}
+              />
+            ) : (
+              <span>{question.text}</span>
+            )}
+
+            {editingQuestionId === question.id ? (
+              <>
+                <button onClick={saveEdit}>Save</button>
+                <button onClick={() => setEditingQuestionId(null)}>Cancel</button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => editQuestion(question.id)}>Edit</button>
+                <button onClick={() => removeQuestion(question.id)}>Remove</button>
+              </>
+            )}
           </li>
         ))}
       </ul>

@@ -7,10 +7,12 @@ import AllQuestions from './components/pages/allQuestions/AllQuestions';
 import AddQuestion from './components/pages/addquestion/AddQuestion';
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Register';
+import { QuestionProvider } from './contexts/QuestionContext';
 
 function App() {
   return (
     <UsersProvider>
+      <QuestionProvider>
       <Routes>
         <Route
           path="/*"
@@ -29,7 +31,8 @@ function App() {
             </>
           }
         />
-      </Routes>
+        </Routes>
+      </QuestionProvider>
     </UsersProvider>
   );
 }
