@@ -67,6 +67,47 @@ const QuestionActionTypes = {
   edit: 'edit one specific question',
 };
 
+const reducer = (state, action) => {
+  switch(action.type){
+    case QuestionActionTypes.get_all:
+      return action.data;
+    case QuestionActionTypes.add:
+      fetch(`http://localhost:8081/questions`, {
+        method: "POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify(action.data)
+      });
+      return [...state, action.data];
+    case QuestionActionTypes.remove:
+      fetch(`http://localhost:8081/questions/${action.id}`,{
+        method: "DELETE"
+      });
+      return state.filter(el => el.id.toString() !== action.id.toString());
+    case QuestionActionTypes.edit:
+      fetch(`http://localhost:8081/questions/${action.id}`, {
+        method: "PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify(action.data)
+      });
+      return state.map(el => {
+        if(el.id.toString() === action.id.toString()){
+          return { id:action.id, ...action.data };
+        } else {
+          return el;
+        }
+      });
+    default:
+      console.log("error: action type not found", action.type);
+      return state;
+  }
+}
+
+
+
 const questionReducer = (state, action) => {
   switch (action.type) {
     case QuestionActionTypes.getAll:
@@ -91,33 +132,12 @@ const AddQuestion = () => {
   const [editedQuestion, setEditedQuestion] = useState(null);
 
   useEffect(() => {
-    fetchData();
+    const storedQuestions = JSON.parse(localStorage.getItem('questions'));
+    dispatchQuestions({ type: QuestionActionTypes.getAll, data: storedQuestions || [] });
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:8081/questions');
-      const data = await response.json();
-      dispatchQuestions({ type: QuestionActionTypes.getAll, data: data || [] });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const updateDataJson = async (updatedQuestions) => {
-    try {
-      const response = await fetch('http://localhost:8081/questions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedQuestions),
-      });
-      const data = await response.json();
-      console.log('Data.json updated successfully:', data);
-    } catch (error) {
-      console.error('Error updating data.json:', error);
-    }
+  const updateLocalStorage = (updatedQuestions) => {
+    localStorage.setItem('questions', JSON.stringify(updatedQuestions));
   };
 
   const addQuestion = () => {
@@ -131,14 +151,13 @@ const AddQuestion = () => {
       dispatchQuestions({ type: QuestionActionTypes.add, data: newQuestion });
       setNewTitle('');
       setNewDescription('');
-      updateDataJson([...questions, newQuestion]);
+      updateLocalStorage([...questions, newQuestion]);
     }
   };
 
   const removeQuestion = async (id) => {
     dispatchQuestions({ type: QuestionActionTypes.remove, id });
-
-    updateDataJson(questions.filter((question) => question.id !== id));
+    updateLocalStorage(questions.filter((question) => question.id !== id));
   };
 
   const saveEdit = () => {
@@ -158,7 +177,8 @@ const AddQuestion = () => {
       setNewTitle('');
       setNewDescription('');
       setEditedQuestion(null);
-      updateDataJson(
+
+      updateLocalStorage(
         questions.map((question) =>
           question.id === editedQuestion.id ? editedQuestionData : question
         )
