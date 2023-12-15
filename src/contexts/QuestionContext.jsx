@@ -1,4 +1,3 @@
-// QuestionContext.jsx
 import React, { createContext, useEffect, useReducer } from 'react';
 
 const QuestionContext = createContext();
@@ -26,7 +25,6 @@ const reducer = (state, action) => {
           return response.json();
         })
         .then((addedQuestion) => {
-          // Update state after the fetch is complete
           return {
             type: QuestionActionTypes.add,
             data: addedQuestion,
@@ -78,7 +76,6 @@ const QuestionProvider = ({ children }) => {
         return response.json();
       })
       .then((addedQuestion) => {
-        // Update state after the fetch is complete
         dispatch({
           type: QuestionActionTypes.add,
           data: addedQuestion,
